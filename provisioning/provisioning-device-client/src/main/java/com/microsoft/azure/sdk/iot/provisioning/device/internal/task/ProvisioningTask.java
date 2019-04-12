@@ -208,7 +208,8 @@ public class ProvisioningTask implements Callable
 
                     RegistrationResult registrationInfo = new RegistrationResult(
                                                             registrationStatus.getAssignedHub(),
-                                                            registrationStatus.getDeviceId(), PROVISIONING_DEVICE_STATUS_ASSIGNED);
+                                                            registrationStatus.getDeviceId(),
+                                                            registrationStatus.getPayload(), PROVISIONING_DEVICE_STATUS_ASSIGNED);
 
                     if (this.securityProvider instanceof SecurityProviderTpm)
                     {
@@ -231,7 +232,7 @@ public class ProvisioningTask implements Callable
                     this.dpsStatus = PROVISIONING_DEVICE_STATUS_FAILED;
                     ProvisioningDeviceHubException dpsHubException = new ProvisioningDeviceHubException(
                             statusRegistrationOperationStatusParser.getRegistrationState().getErrorMessage());
-                    registrationInfo = new RegistrationResult(null, null, PROVISIONING_DEVICE_STATUS_FAILED);
+                    registrationInfo = new RegistrationResult(null, null, null, PROVISIONING_DEVICE_STATUS_FAILED);
                     this.invokeRegistrationCallback(registrationInfo, dpsHubException);
                     isContinue = false;
                     break;
@@ -239,7 +240,7 @@ public class ProvisioningTask implements Callable
                     this.dpsStatus = PROVISIONING_DEVICE_STATUS_DISABLED;
                     dpsHubException = new ProvisioningDeviceHubException(
                             statusRegistrationOperationStatusParser.getRegistrationState().getErrorMessage());
-                    registrationInfo = new RegistrationResult(null, null, PROVISIONING_DEVICE_STATUS_DISABLED);
+                    registrationInfo = new RegistrationResult(null, null, null, PROVISIONING_DEVICE_STATUS_DISABLED);
                     this.invokeRegistrationCallback(registrationInfo, dpsHubException);
                     isContinue = false;
                     break;
@@ -292,7 +293,7 @@ public class ProvisioningTask implements Callable
         {
             //SRS_ProvisioningTask_25_006: [ This method shall invoke the status callback, if any of the task fail or throw any exception. ]
             this.dpsStatus = PROVISIONING_DEVICE_STATUS_ERROR;
-            invokeRegistrationCallback(new RegistrationResult(null, null, PROVISIONING_DEVICE_STATUS_ERROR), e);
+            invokeRegistrationCallback(new RegistrationResult(null, null, null, PROVISIONING_DEVICE_STATUS_ERROR), e);
             //SRS_ProvisioningTask_25_015: [ This method shall invoke close call on the contract and close the threads started.]
             this.close();
         }
