@@ -66,8 +66,8 @@ public final class AmqpsIotHubConnection extends BaseHandler implements IotHubTr
     // this connection. The original thread completes its shutdown. That thread should only be spawned once.
     private boolean reconnectionScheduled = false;
 
-    private ExecutorService executorService;
-    private ScheduledExecutorService scheduledExecutorService;
+    private ExecutorService executorService = null;
+    private ScheduledExecutorService scheduledExecutorService = null;
 
     private CountDownLatch openLatch;
     private CountDownLatch closeLatch;
